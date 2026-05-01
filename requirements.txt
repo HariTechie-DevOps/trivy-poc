@@ -1,0 +1,35 @@
+# ============================================================
+# Intentionally OUTDATED & VULNERABLE packages
+# Trivy vuln scanner will detect CVEs in these versions
+# ============================================================
+
+# Flask 0.12.2 - Multiple CVEs (2018)
+# CVE-2018-1000656: Denial of Service via large JSON payloads
+Flask==0.12.2
+
+# Werkzeug 0.14.1 - CVE-2019-14806, CVE-2023-25577
+Werkzeug==0.14.1
+
+# Jinja2 2.10 - CVE-2019-10906 (Sandbox Escape)
+Jinja2==2.10
+
+# requests 2.18.4 - CVE-2018-18074 (credential exposure)
+requests==2.18.4
+
+# cryptography 2.1.4 - Multiple CVEs
+cryptography==2.1.4
+
+# PyYAML 3.13 - CVE-2017-18342 (Arbitrary Code Execution)
+PyYAML==3.13
+
+# Pillow 5.0.0 - Multiple CVEs (image processing vulnerabilities)
+Pillow==5.0.0
+
+# urllib3 1.22 - CVE-2018-20060, CVE-2019-11324
+urllib3==1.22
+
+# Django 2.0 - Multiple CVEs (if used)
+# django==2.0
+
+# SQLAlchemy 1.2.0
+SQLAlchemy==1.2.0
