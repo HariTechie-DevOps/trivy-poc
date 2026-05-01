@@ -474,7 +474,7 @@ pipeline {
                         subject: "[Trivy Scan] ${APP_NAME} Build #${BUILD_NUMBER} — ${currentBuild.currentResult}",
                         body: htmlReport,
                         mimeType: 'text/html',
-                        to: 'devops-team@yourcompany.com,security-team@yourcompany.com',
+                        to: 's.harisankar21122002@gmail.com.com,security-team@yourcompany.com',
                         replyTo: 'jenkins@yourcompany.com',
                         attachmentsPattern: 'trivy-reports/*.json',
                         attachLog: false
