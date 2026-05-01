@@ -1,0 +1,70 @@
+# ============================================================
+# Intentionally MISCONFIGURED Kubernetes Deployment
+# Trivy misconfig scanner will catch all these
+# ============================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trivy-poc-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trivy-poc
+  template:
+    metadata:
+      labels:
+        app: trivy-poc
+    spec:
+      containers:
+      - name: app
+        image: trivy-poc:latest
+
+        # MISCONFIG 1: No resource limits (can crash the node)
+        # Should have: resources.limits.cpu and memory
+
+        # MISCONFIG 2: Running as root
+        securityContext:
+          runAsUser: 0                    # root user!
+          privileged: true               # full host access!
+          allowPrivilegeEscalation: true # can gain more privileges!
+          readOnlyRootFilesystem: false  # can write anywhere
+
+        # MISCONFIG 3: Hardcoded secrets in env (use Secrets instead)
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          value: "AKIAIOSFODNN7EXAMPLE"
+        - name: DB_PASSWORD
+          value: "admin123"
+
+        ports:
+        - containerPort: 5000
+
+        # MISCONFIG 4: No liveness/readiness probe
+        # Should have: livenessProbe and readinessProbe
+
+      # MISCONFIG 5: automountServiceAccountToken not disabled
+      # automountServiceAccountToken: false
+
+      # MISCONFIG 6: No pod security context
+      # securityContext:
+      #   runAsNonRoot: true
+      #   seccompProfile:
+      #     type: RuntimeDefault
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trivy-poc-service
+spec:
+  # MISCONFIG 7: LoadBalancer type exposes directly to internet
+  type: LoadBalancer
+  selector:
+    app: trivy-poc
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
